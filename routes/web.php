@@ -24,6 +24,15 @@ Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/debug-app-url', function () {
+    return [
+        'app_url' => config('app.url'),
+        'asset_url' => config('app.asset_url'),
+        'request_scheme' => request()->getScheme(),
+        'request_host' => request()->getHost(),
+        'full_url' => url('/'),
+    ];
+});
 
 // Static pages
 Route::get('/about', [PageController::class, 'about'])->name('about');
