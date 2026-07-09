@@ -11,16 +11,7 @@
             "dest": "/build/$1"
         },
         {
-            "src": "/assets/(.*)",
-            "dest": "/assets/$1"
-        },
-        {
-            "src": "/favicon.ico",
-            "dest": "/favicon.ico"
-        },
-        {
-            "src": "/robots.txt",
-            "dest": "/robots.txt"
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
