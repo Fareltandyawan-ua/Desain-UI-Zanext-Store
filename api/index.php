@@ -1,10 +1,17 @@
 <?php
-// 1. Jalankan aplikasi lewat public/index.php bawaan Laravel
-require __DIR__ . '/../public/index.php';
 
-// 2. Ambil instans app yang sudah tercipta di dalam public/index.php tadi
-// (Jangan pakai require_once bootstrap/app.php lagi karena bikin crash)
-$app = app();
+use Illuminate\Http\Request;
 
-// 3. Pindahkan folder storage ke /tmp agar Laravel bisa menulis cache/session di Vercel
-$app->useStoragePath($_ENV['APP_STORAGE'] ?? '/tmp/storage');
+define('LARAVEL_START', microtime(true));
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
+// Pindahkan storage ke /tmp agar bisa nulis di Vercel
+$app->useStoragePath(getenv('APP_STORAGE') ?: '/tmp/storage');
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+$response = $kernel->handle(Request::capture());
+$response->send();
+$kernel->terminate(Request::capture(), $response);
