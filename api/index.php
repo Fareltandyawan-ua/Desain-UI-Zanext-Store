@@ -26,7 +26,10 @@ try {
         }
     }
 
-    $app->handleRequest(Request::capture());
+    $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+    $response = $kernel->handle(Request::capture());
+    $response->send();
+    $kernel->terminate(Request::capture(), $response);
 } catch (\Throwable $e) {
     http_response_code(500);
     header('Content-Type: application/json');
