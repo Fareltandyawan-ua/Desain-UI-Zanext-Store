@@ -20,8 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Force HTTPS when APP_URL uses https (e.g. ngrok tunnel)
-        if (str_starts_with(config('app.url'), 'https://')) {
+        if (app()->environment('production') || str_starts_with(config('app.url'), 'https://')) {
             URL::forceScheme('https');
         }
     }
